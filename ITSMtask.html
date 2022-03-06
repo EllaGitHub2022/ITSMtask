@@ -1,0 +1,250 @@
+﻿<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>   
+    <style>
+        :root {
+            --blue-color: #157cc9;
+        }
+        html {
+            font-size: 16px;
+        }
+        body {
+            font-family: Helvetica, san-serif;
+            background: #fff;
+            text-align: center;
+            color: #323232;
+            font-size: 1rem;
+        }
+        form {
+            width: 90%;
+            margin: auto;
+            text-align: left;
+        }
+        .mob-layout {
+            max-width: 450px;
+            padding: 1rem;
+            margin: 1rem auto;           
+            border: 4px solid var(--blue-color);
+            border-radius: 1.5rem;
+            background-color: #e9e9e9;
+            box-shadow: 0px 5px 5px 4px rgba(0, 0, 0, 0.2);
+        }
+        header {
+            text-align: center;
+        }
+        .text-center {
+            text-align: center;
+        }
+        .logo {
+            max-width: 100%;
+            margin: 0 auto;
+            width: 50%;
+        }
+        .text-shadow {
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+        }
+        .text-blue {
+            /* color: #287ebb;*/
+            color: var(--blue-color);
+            background: -webkit-linear-gradient(var(--blue-color), #4a839e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .text-white {
+            color: #fff;
+        }
+        .no-shadow {
+            text-shadow: none;
+        }
+        h2 {
+            font-size: 2rem;
+            margin-top: 0;
+            margin-bottom: 0.5rem;
+        }
+        input {
+            display: block;
+            width: 90%;
+            padding: .375rem .75rem;
+            font-weight: 400;
+            line-height: 1.5;
+            color: #495057;
+            background-color: #fff;
+            background-clip: padding-box;
+            border: 1px solid var(--blue-color);
+            border-radius: .25rem;
+            margin: 1rem auto;
+        }
+        .btn-submit {
+            background-color: var(--blue-color);
+            color: #fff;
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin: 1rem auto;
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            border-radius: 1rem;
+           box-shadow:none;
+        }
+            .btn-submit:hover .btn-inside {
+                transform:scale(1.05)
+            }
+            .arrow-right:after, .arrow-left::before {
+            content: "";
+            display: inline-block !important;
+            width: 0;
+            height: 0;         
+            border-top: 20px solid transparent;
+            border-bottom: 20px solid transparent;
+            vertical-align: middle;
+        }
+        .arrow-right:after {
+            border-left: 20px solid #fff;
+        }
+        .arrow-left::before {
+            border-right: 20px solid #fff;
+        }
+            .arrow-right:before, .arrow-left::after {
+                width: 15px;
+                height:15px;
+                background: #fff;
+                content: "";
+                display: inline-block;
+                vertical-align: middle;
+            }
+        .resident {
+            border:none;
+        }
+        .resident input{
+            display:inline-block;
+            width:auto;
+           /* margin:0.5rem;*/
+        }
+        .m-0{
+            margin:0!important;
+        }
+        .alert {
+            color:red;
+            display:block;
+        }
+       
+    </style>
+</head>
+<body>
+    <div class="mob-layout">
+        <header>
+            <img class="logo" src="https://www.australia.com/etc.clientlibs/tourismaustralia/clientlibs/resources/images/header/v3/logo.svg" alt="Australia" />
+        </header>
+        <main>
+            <h2 class="text-shadow text-white">Please enter your<br /> <span class="text-blue no-shadow"> details</span> below</h2>
+            <form onsubmit="validate(event)">
+                <div class="text-center">
+                    <input class="form-input" name="First Name" tabindex="1" placeholder="Enter your First Name..." />
+                    <input class="form-input" name="Last Name" tabindex="2" placeholder="Enter your Last Name..." />
+                    <input class="form-input" name="Email" tabindex="3" placeholder="Enter your Email..." />
+                </div>
+                <fieldset class="resident">
+                    <p class="mb-1"><label>I'm a resident of </label></p>
+                    <input type="radio" id="r1" name="resident" tabindex="4" value="Australia">
+                    <label for="r1">Australia</label><br>
+                    <input type="radio" id="r2" name="resident" tabindex="5"  value="New Zealand">
+                    <label for="r2">New Zealand</label><br>
+                    <input type="radio" id="r3" name="resident" tabindex="6"  value="Outside of Australia and New Zealand">
+                    <label for="r3">Outside of Australia and New Zealand</label>
+                    <p></p>
+                    <input type="checkbox" id="tnc" name="TnC" class="m-0" tabindex="7" />&nbsp;<label for="tnc">I confirm I am over 19, accept the term and conditions, and give consent to receive relevant email communication </label>
+                </fieldset>
+                <div class="errors"></div>
+                <div class="text-center"><button class="btn-submit"><span class="arrow-right" tabindex="8"  onclick="validate(e)"></span><span class="btn-inside">CLICK HERE<br /> TO SUBMIT <br />YOUR DETAILS</span><span class="arrow-left"></span></button></div>
+            </form>
+        </main>
+    </div>
+    <script>
+        const errClass = "alert"
+        var viewData = {
+                fieldsValue: []
+        };
+        function addToJson(field) {
+            var jsonData = {};
+            jsonData[field.name] = field.value;
+            viewData.fieldsValue.push(jsonData);
+        }
+        function addErrorMess(field, mess) {          
+            var par = field.parentElement;
+            var errmess = document.createElement('span');
+            errmess.innerHTML = mess;
+            errmess.className = errClass;
+            par.insertBefore(errmess, field);
+        }     
+        function validate(e) {
+            e.preventDefault();
+            //remove all errors
+            document.querySelectorAll('.' + errClass).forEach(e => e.remove());
+            var formValid = false;           
+            var inputFields;
+            //validate input fields
+            var ivalid=true
+            inputFields= document.getElementsByClassName("form-input");
+            for (i = 0; i < inputFields.length; i++) {         
+                if (inputFields[i].value == '') {
+                    addErrorMess(inputFields[i], inputFields[i].placeholder);
+                    ivalid = false;                   
+                }
+                else {
+                    if (ivalid) {
+                        addToJson(inputFields[i])
+                    }
+                }
+            }
+            formValid = ivalid;
+            //validate radiobuttons
+            var rvalid = false;
+                inputFields = document.getElementsByName("resident");             
+                for (i = 0; i < inputFields.length; i++) {
+                    if (inputFields[i].checked) {                        
+                        if (formValid) { addToJson(inputFields[i]) }
+                        rvalid = true;
+                        break;
+                    }
+            }
+            if (!rvalid) {
+                formValid = false;
+                addErrorMess(inputFields[0], "Please answer: I'm a resident of")
+            }
+          
+             //validate  checkbox           
+            var chboxvalid=false
+                inputFields = document.getElementById("tnc");
+                if (inputFields.checked) {                   
+                    chboxvalid = true;
+                    if (formValid) { addToJson(inputFields) }
+                }
+                else {
+                    addErrorMess(inputFields, "Please confirm you are over 19 and ...")                  
+                    chboxvalid = false;
+                    formValid=false
+                }
+           
+            if (formValid) {
+                console.log(JSON.stringify(viewData));
+            }
+            else {
+                console.log('Invalid');
+            }           
+            return false;
+        }
+        //stop form submit on Enter
+        document.querySelector('body').addEventListener('keydown', function (e) {
+            if (e.key === "Enter") {                         
+                var focusable = document.querySelectorAll('input,a,select,textarea')              
+                var next = focusable[e.target.tabIndex];            
+                    next.focus();              
+                e.preventDefault();
+            }
+        });
+    </script>
+</body>
+</html>
